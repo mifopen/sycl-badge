@@ -180,7 +180,19 @@ var channels_note_start = [1]f32{0.0} ** song.len;
 pub export fn start() void {}
 
 pub export fn update() void {
-    time += 1.0 / 60.0;
+    time += 1.0 / 30.0;
+    cart.neopixels[0] = if (@mod(time, 2.0) < 1.0) .{
+        .r = 0x20,
+        .g = 0x00,
+        .b = 0x00,
+    } else .{
+        .r = 0x00,
+        .g = 0x20,
+        .b = 0x00,
+    };
+
+    if (true) return;
+
     for (
         0..,
         &channels_note_index,

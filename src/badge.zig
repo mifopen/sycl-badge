@@ -13,6 +13,7 @@
 //! - USB mass drive
 //! - USB CDC logging
 const std = @import("std");
+const builtin = @import("builtin");
 
 const microzig = @import("microzig");
 const board = microzig.board;
@@ -251,6 +252,14 @@ pub fn main() !void {
 
     cart.start();
     while (true) {
+        // temporarily emulate frame limiting
+        for (0..switch (builtin.mode) {
+            .Debug => 133_333,
+            .ReleaseSafe => 133_333,
+            .ReleaseFast => 133_333,
+            .ReleaseSmall => 133_333,
+        }) |_| asm volatile ("");
+
         //if (!frame_is_ready())
         //    continue;
 
